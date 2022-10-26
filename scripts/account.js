@@ -23,4 +23,6 @@ async function batchCreateAccounts(num) {
 
 }
 
+
+
 batchCreateAccounts(4);
