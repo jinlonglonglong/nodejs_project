@@ -18,7 +18,8 @@ const provider = ethers.getDefaultProvider('https://api.bitstack.com/v1/wNFxbiJy
 
 
 
-//create accounts
+//create accounts 
+//evm accounts
 async function batchCreateAccounts(num) {
     var accounts = '';
     for (let index = 0; index < num; index++) {
@@ -36,6 +37,7 @@ async function batchCreateAccounts(num) {
 
 }
 
+//aptos accounts
 async function batchCreateAccountsInAptos(num) {
     var accounts = '';
     for (let index = 0; index < num; index++) {
@@ -54,6 +56,6 @@ async function batchCreateAccountsInAptos(num) {
 
 
 
-//batchCreateAccounts(1);
+batchCreateAccounts(1);
 
 batchCreateAccountsInAptos(1);
