@@ -40,12 +40,9 @@ async function batchCreateAccountsInAptos(num) {
     var accounts = '';
     for (let index = 0; index < num; index++) {
         const mnemonic = bip39.generateMnemonic();
-        console.log("mnemonic: ", mnemonic);
         const aptosAccount = aptos.AptosAccount.fromDerivePath("m/44'/637'/0'/0'/0'", mnemonic);
         const address = aptosAccount.toPrivateKeyObject().address;
         const privateKey = aptosAccount.toPrivateKeyObject().privateKeyHex;
-        console.log("address : \n", address);
-        console.log("privateKey : \n", privateKey);
         if (index == num - 1) {
             accounts = accounts.concat(address, '_', mnemonic, '_', privateKey);
         } else {
