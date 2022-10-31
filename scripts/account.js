@@ -6,7 +6,9 @@ var createPrivateKey = require('mnemonic-to-private-key/lib/index.js').createPri
 require("dotenv").config();
 var aptos = require('aptos');
 
-const bip39 = require('bip39')
+const bip39 = require('bip39');
+
+var { Ed25519Keypair, mnemonicToSeed } = require('@mysten/sui.js');
 
 const NODE_URL = process.env.APTOS_NODE_URL || "https://fullnode.devnet.aptoslabs.com";
 const FAUCET_URL = process.env.APTOS_FAUCET_URL || "https://faucet.devnet.aptoslabs.com";
@@ -33,7 +35,7 @@ async function batchCreateAccounts(num) {
             accounts = accounts.concat(address, '_', mnemonic, '_', privateKey, ',', '\n');
         }
     }
-    console.log('accounts: \n', accounts);
+    console.log('EVM accounts: \n', accounts);
 
 }
 
@@ -51,11 +53,29 @@ async function batchCreateAccountsInAptos(num) {
             accounts = accounts.concat(address, '_', mnemonic, '_', privateKey, ',', '\n');
         }
     }
-    console.log('accounts: \n', accounts);
+    console.log('APTOS accounts: \n', accounts);
+}
+
+//sui accounts
+async function batchCreateAccountsInSui(num) {
+    var accounts = '';
+    for (let index = 0; index < num; index++) {
+        const mnemonic = bip39.generateMnemonic();
+        const keyPair = Ed25519Keypair.deriveKeypair(mnemonic);
+        const address = '0x' + keyPair.getPublicKey().toSuiAddress();
+        if (index == num - 1) {
+            accounts = accounts.concat(address, '_', mnemonic,);
+        } else {
+            accounts = accounts.concat(address, '_', mnemonic, ',', '\n');
+        }
+    }
+    console.log('SUI accounts: \n', accounts);
 }
 
 
 
-batchCreateAccounts(1);
 
-batchCreateAccountsInAptos(1);
+
+//batchCreateAccounts(1);
+//batchCreateAccountsInAptos(10);
+batchCreateAccountsInSui(3);
